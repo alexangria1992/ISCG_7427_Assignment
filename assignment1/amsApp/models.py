@@ -14,14 +14,14 @@ class Role(models.Model):
 
   id = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, primary_key=True)
 
-def __str__(self):
-      return self.get_id_display()
+  def __str__(self):
+    return self.get_id_display()
 
 def strfdelta(tdelta, fmt):
-    d = {"days": tdelta.days}
-    d["hours"], rem = divmod(tdelta.seconds, 3600)
-    d["minutes"], d["seconds"] = divmod(rem, 60)
-    return fmt.format(**d)
+  d = {"days": tdelta.days}
+  d["hours"], rem = divmod(tdelta.seconds, 3600)
+  d["minutes"], d["seconds"] = divmod(rem, 60)
+  return fmt.format(**d)
 
 class Activity(models.Model):
   name = models.CharField(max_length=255)
