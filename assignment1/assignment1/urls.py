@@ -9,9 +9,12 @@ urlpatterns = [
 
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register-user'),
+      path('child/profile/', views.child_profile, name='child-profile'),
     path('myprofile/', views.my_profile, name='my-profile'),
     path('calendar/', views.calendar, name='calendar'),
-    path('logout/', views.logout_view, name='logout')
+    path('logout/', views.logout_view, name='logout'),
+    path('update/child/', views.updateChild, name = 'update-child'),
+    path('register/', views.register_view, name='register-user')
 
 
 ]

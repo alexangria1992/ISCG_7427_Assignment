@@ -32,7 +32,7 @@ def login_view(request):
 
 
     return render(request, 'login.html', {'includeNav': False})
-    
+
 def logout_view(request):
     if (request.user.is_authenticated):
         logout(request)
@@ -75,6 +75,35 @@ def my_profile(request):
             messages.add_message(request, messages.INFO, "Child Add Failed")
     myChildren = request.user.myChildren.all()
     context= {'userrole':userrole,'includeNav': True, 'myChildren': myChildren,'form':cf}
+    return render(request, 'my-profile.html', context)
+
+def child_profile(request,newContext={}):
+    context ={'includeNav':True}
+    if request.method == 'POST':
+        child = request.user.myChildren.all().filter(id=request.POST.get('childId')).first()
+        context = {'includeNav':True,'child':child }
+    
+    return render(request,'child-profile.html',context)
+
+def updateChild(request):
+    if (not request.user.is_authenticated):
+        return redirect('home')
+    
+    if request.method == 'POST':
+        childId = request.POST.get('childId')
+        child = request.user.myChildren.filter(id=childId).first()
+        cf = forms.ChildForm(request.POST, instance=child)
+        if  cf.is_valid():       
+            cf.save()
+            messages.add_message(request,messages.SUCCESS, f'{child.name}\'s details have been Updated Successfully!')
+            return redirect('my-profile')
+    else:
+        cf = forms.ChildForm()
+        messages.add_message(request,messages.INFO, 'Failed to update child details.')
+    
+    
+    context = {'form': cf}
+
     return render(request, 'my-profile.html', context)
     
 def calendar(request):
@@ -119,4 +148,6 @@ def calendar(request):
     dates_for_nav['end_date'] = end_date
 
     context = {'row_wise_data':rwd,'next_five_week_days':five_week_days_strings,'includeNav':True,'dates':dates_for_nav}
-    return render(request,'calendar.html',context)
+    return render(request, 'calendar.html', context)
+    
+
