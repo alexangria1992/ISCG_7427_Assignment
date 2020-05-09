@@ -105,6 +105,21 @@ def updateChild(request):
     context = {'form': cf}
 
     return render(request, 'my-profile.html', context)
+
+
+
+def remove_child(request):
+    if request.method == 'POST':
+        childId= request.POST.get('childId')
+        child = request.user.myChildren.filter(id=childId).delete()
+        if child is not None:
+            messages.add_message(request, messages.SUCCESS, "Child Delete Successful")
+        else:
+            messages.add_message(request, messages.INFO, "Child Delete Unsuccessful")
+    return redirect('my-profile')
+
+def add_activity(request):
+    return render(request, 'add-activity.html', {'includeNav': True})
     
 def calendar(request):
     # set sratrdate should be from request params but for now chill

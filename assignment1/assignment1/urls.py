@@ -14,7 +14,9 @@ urlpatterns = [
     path('calendar/', views.calendar, name='calendar'),
     path('logout/', views.logout_view, name='logout'),
     path('update/child/', views.updateChild, name = 'update-child'),
-    path('register/', views.register_view, name='register-user')
+    path('register/', views.register_view, name='register-user'),
+    path('remove/child/', views.remove_child, name = 'remove-child'),
+
 
 
 ]
