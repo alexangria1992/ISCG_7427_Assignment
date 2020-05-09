@@ -1,0 +1,125 @@
+{% extends 'base.html' %} {% block content1 %}
+
+<main>
+    <div class="container">
+
+        <div class="row my-5 week-nav">
+            <div class="col">
+                <div class="row">
+
+                    <div class="col">
+                        <p style="text-align: center;"> This weeks activities: 22/4/2020 to 29/4/2020 </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-outline-secondary">Previous</button>
+
+                    </div>
+
+                    <div class="col">
+                        <button class="btn btn-outline-secondary float-right">Next</button>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-4 profile">
+
+                <div class="card">
+                    <img class="card-img-top" src="https://source.unsplash.com/random" alt="{{child.name}} PROFILE">
+                    <div class="card-body">
+                        <h5 class="card-title">{{child.name}}'s Profile</h5>
+                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p> -->
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">DOB and Age: {{child.date_of_birth}}</li>
+                        <li class="list-group-item">Address:{{child.address}}</li>
+                        <li class="list-group-item"> <a href=""> Parents' contact </a> </li>
+                        <li class="list-group-item"> <a href=""> Teachers' contact </a> </li>
+                    </ul>
+                    <!-- <div class="card-body">
+                        <a href="#" class="card-link">Card link</a>
+                        <a href="#" class="card-link">Another link</a>
+                    </div> -->
+                </div>
+
+
+
+            </div>
+            <!-- //TODO put style in seperate file -->
+            <style>
+                .activity {
+                    background-color: #e8e8e8;
+                    border: 1px solid black;
+                }
+                
+                .activity button {
+                    padding: 0 5px 0 5px;
+                    margin-bottom: 10px;
+                }
+            </style>
+
+            <div class="col-8 activities">
+
+                <div class="row activities my-3">
+
+
+
+
+                    {%for activity in child.enrolled_activities.all%}
+                    <div class="col-sm-6 ">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"> {{activity.name}}</h5>
+                                <p>Date: {{activity.date}}</p>
+                                <p>From: {{activity.start_time}} </p>
+                                <p>To: {{activity.dur_str}} </p>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+</main>
+
+{% include 'success-modal.html' %} {% endblock %}

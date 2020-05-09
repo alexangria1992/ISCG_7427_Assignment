@@ -24,3 +24,14 @@ class ActivityForm(ModelForm):
            'date' : DateInput(),
            
         }
+
+
+class ChildForm(ModelForm):
+     class Meta:
+        model = Child
+        
+        fields = ['name','date_of_birth','address','contact']
+        
+        widgets = {
+            'date_of_birth': DateInput(),
+        }
