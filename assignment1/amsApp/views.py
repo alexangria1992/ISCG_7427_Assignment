@@ -12,7 +12,62 @@ from amsApp import forms
 
 # Create your views here.
 def home(request):
-   return render(request,'home.html',{'includeNav':True})
+    try:
+        userrole = request.user.roles.first().id
+    except:
+        userrole = '3'
+    af = forms.ActivityForm()
+    allActivities = Activity.objects.all()
+    if request.method == 'POST':
+        if request.POST.get('form-type') == 'remove-activity' and request.POST.get('form-type') is not None:
+            activityId = request.POST.get('activityId')
+            activity = Activity.objects.filter(id=activityId).delete()
+            if activity is not None:
+                messages.add_message(request, messages.SUCCESS, "Activity Delete Successful")
+            else:
+                messages.add_message(request, messages.INFO, "Activity Delete Unsuccessful")
+            return redirect('home')
+
+
+        if request.POST.get('form-type') == 'update-activity' and request.POST.get('form-type') is not None:
+            activityId = request.POST.get('activityId')
+            a1 = Activity.objects.filter(id=activityId).first()
+            a1name = a1.name
+            af = forms.ActivityForm(request.POST, instance=a1)
+            if  af.is_valid():       
+                a2 = af.save()
+                messages.add_message(request,messages.SUCCESS, f'{a1name}\'s details have been Updated Successfully to {a2.name}!')
+                return redirect('home')
+            else:
+                 af = forms.ActivityForm()
+                 messages.add_message(request,messages.INFO, 'Failed to update activity details.')
+    
+            
+    if request.method == 'POST':
+        if request.POST.get('childId') is not None:
+            try:
+                childId= request.POST.get('childId')
+                activityId= request.POST.get('activityId')
+                selectedChild = Child.objects.filter(id=childId).first()
+                selectedActivity = Activity.objects.filter(id=activityId).first()
+                selectedChild.enrolled_activities.add(selectedActivity)
+                messages.add_message(request, messages.SUCCESS, f'{selectedChild.name} has been enrolled in {selectedActivity.name}')
+            except:
+                messages.add_message(request, messages.INFO, f'FAILED to enroll child')
+            context = {'userrole':userrole,'includeNav':True,'child':selectedChild,'allActivities': allActivities}
+            response = child_profile(request, context)
+            return response
+            
+        else:
+            af = forms.ActivityForm(request.POST)
+            if af.is_valid():
+                activity = af.save()
+                messages.add_message(request, messages.SUCCESS,"Activity added successfully")
+            else:
+                messages.add_message(request, messages.INFO,"Activity  Failed")
+    
+    context = {'userrole':userrole,'includeNav':True,'form':af,'allActivities': allActivities}
+    return render(request,'home.html',context)
 
 
    
