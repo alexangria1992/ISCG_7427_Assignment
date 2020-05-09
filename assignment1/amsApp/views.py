@@ -1,27 +1,18 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import User,Role,Activity,Child
+from .models import User, Role, Activity, Child
+from amsApp import forms
+
 
 
 
 # Create your views here.
 def home(request):
-    try:
-        userrole = request.user.roles.first().id
-    except:
-        userrole = '3'
-    af = forms.ActivityForm()
-    allActivities = Activity.objects.all()
-    if request.method == 'POST':
-        if request.POST.get('form-type') == 'remove-activity' and request.POST.get('form-type') is not None:
-            activityId = request.POST.get('activityId')
-            activity = Activity.objects.filter(id=activityId).delete()
-            if activity is not None:
-                messages.add_message(request, messages.SUCCESS, "Activity Delete Successful")
-            else:
-                messages.add_message(request, messages.INFO, "Activity Delete Unsuccessful")
-            return redirect('home')
+   return render(request,'home.html',{'includeNav':True})
+
+
+   
 
 def login_view(request):
     if request.method == 'POST':
