@@ -2,6 +2,9 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import User, Role, Activity, Child
+from django.db import IntegrityError
+from datetime import datetime,timedelta
+from datetime import time
 from amsApp import forms
 
 
@@ -49,4 +52,24 @@ def register_view(request):
     except IntegrityError:
         messages.add_message(request, messages.INFO, "That Username is taken please try another username")
 
-    return render(request,'register.html',{'includeNav':False})
+    return render(request, 'register.html', {'includeNav': False})
+    
+def my_profile(request):
+    try:
+        userrole = request.user.roles.first().id
+    except:
+        userrole = '3'
+    cf = forms.ChildForm()
+    if request.method == 'POST':
+        cf = forms.ChildForm(request.POST)
+        if cf.is_valid():
+            child = cf.save()
+            request.user.myChildren.add(child)
+            messages.add_message(request, messages.SUCCESS, "Child Added Successfully")
+        else:
+            messages.add_message(request, messages.INFO, "Child Add Failed")
+    myChildren = request.user.myChildren.all()
+    context= {'userrole':userrole,'includeNav': True, 'myChildren': myChildren,'form':cf}
+    return render(request, 'my-profile.html',context)
+
+    
