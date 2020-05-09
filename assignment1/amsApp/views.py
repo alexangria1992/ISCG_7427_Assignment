@@ -33,6 +33,11 @@ def login_view(request):
 
     return render(request, 'login.html', {'includeNav': False})
     
+def logout_view(request):
+    if (request.user.is_authenticated):
+        logout(request)
+    return redirect('login')
+
 def register_view(request):
     if(request.user.is_authenticated):
         return redirect('home')
