@@ -21,6 +21,7 @@ def home(request):
     if request.method == 'POST':
         if request.POST.get('form-type') == 'remove-activity' and request.POST.get('form-type') is not None:
             activityId = request.POST.get('activityId')
+        
             activity = Activity.objects.filter(id=activityId).delete()
             if activity is not None:
                 messages.add_message(request, messages.SUCCESS, "Activity Delete Successful")
