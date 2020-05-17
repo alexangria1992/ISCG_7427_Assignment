@@ -84,9 +84,15 @@ background-repeat: no-repeat;
 
             eighteenYearsBack = yyyy2 + '-' + mm2 + '-' + dd2;
             console.log(eighteenYearsBack)
-            document.getElementById('id_date_of_birth').setAttribute("max", today);
-            document.getElementById('id_date-of_birth').setAttribute("min", eighteenYearsBack);
-        }
+            $('.dateinput').each((index, dateinput) => {
+                if ($(dateinput).attr('name') == 'date_of_birth') {
+                    $(dateinput).attr("max", today);
+                    $(dateinput).attr("min", eighteenYearsBack);
+
+                }
+            });
+        };
+        set18YearsDOB();
     </script>
 
 </body>
