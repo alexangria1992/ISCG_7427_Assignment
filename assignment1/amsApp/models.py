@@ -34,6 +34,8 @@ class Activity(models.Model):
 
   def __str__(self):
     return self.name
+  def get_week(self):
+      return self.date.isocalendar()[1]
 
 class Child(models.Model):
   name = models.CharField(max_length=50)
@@ -52,3 +54,4 @@ class User(AbstractUser):
 
   def __str__(self):
     return self.username
+

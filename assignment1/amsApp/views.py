@@ -6,30 +6,57 @@ from django.db import IntegrityError
 from datetime import datetime,timedelta
 from datetime import time
 from amsApp import forms
+from django.utils import timezone
+
 
 
 
 
 # Create your views here.
 def home(request):
+    
     try:
         userrole = request.user.roles.first().id
     except:
         userrole = '3'
     af = forms.ActivityForm()
     allActivities = Activity.objects.all()
+   
+    context = dict()
+
+    current_activities =[]
+    current_week = timezone.now().isocalendar()[1]
+    try:
+        print('in the all activities the first activity is in the week of'+ str(allActivities.first().get_week()))
+    except:
+        print('no activities')
+    
+    
+    
     if request.method == 'POST':
+        if request.method == 'POST'  and request.POST.get('week') is not None:
+            week = request.POST.get('week')
+            current_week = request.POST['current_week']
+            print('beforer the week was '+current_week)
+
+            if week == 'next-week':
+                current_week = str(int(current_week) +1)
+            if week == 'last-week':
+                current_week = str(int(current_week) -1)
+        
+        
+            
+
         if request.POST.get('form-type') == 'remove-activity' and request.POST.get('form-type') is not None:
             activityId = request.POST.get('activityId')
-        
+            
             activity = Activity.objects.filter(id=activityId).delete()
             if activity is not None:
                 messages.add_message(request, messages.SUCCESS, "Activity Delete Successful")
             else:
                 messages.add_message(request, messages.INFO, "Activity Delete Unsuccessful")
             return redirect('home')
-
-
+            
         if request.POST.get('form-type') == 'update-activity' and request.POST.get('form-type') is not None:
             activityId = request.POST.get('activityId')
             a1 = Activity.objects.filter(id=activityId).first()
@@ -40,11 +67,10 @@ def home(request):
                 messages.add_message(request,messages.SUCCESS, f'{a1name}\'s details have been Updated Successfully to {a2.name}!')
                 return redirect('home')
             else:
-                 af = forms.ActivityForm()
-                 messages.add_message(request,messages.INFO, 'Failed to update activity details.')
-    
-            
-    if request.method == 'POST':
+                af = forms.ActivityForm()
+                messages.add_message(request,messages.INFO, 'Failed to update activity details.')
+
+
         if request.POST.get('childId') is not None:
             try:
                 childId= request.POST.get('childId')
@@ -59,7 +85,8 @@ def home(request):
             response = child_profile(request, context)
             return response
             
-        else:
+        if request.POST.get('duration') is not None:
+            print("adding activity...")
             af = forms.ActivityForm(request.POST)
             if af.is_valid():
                 activity = af.save()
@@ -67,8 +94,24 @@ def home(request):
             else:
                 messages.add_message(request, messages.INFO,"Activity  Failed")
     
-    context = {'userrole':userrole,'includeNav':True,'form':af,'allActivities': allActivities}
+    current_activities = []
+    for activity in allActivities:
+        if str(activity.get_week()) == str(int(current_week)+1):
+            current_activities.append(activity)
+            #print(activity,activity.get_week())
+    print('current activities are :'  )
+    print(current_activities)
+    print('now the week is '+str(current_week))
+
+    context = {'userrole':userrole,'includeNav':True,'form':af}
+    context['allActivities'] = current_activities
+    context['current_week'] = current_week
+
     return render(request,'home.html',context)
+
+
+      
+
 
 
    
@@ -220,5 +263,10 @@ def calendar(request):
 
     context = {'row_wise_data':rwd,'next_five_week_days':five_week_days_strings,'includeNav':True,'dates':dates_for_nav}
     return render(request, 'calendar.html', context)
+
+
+
+
     
+
 
