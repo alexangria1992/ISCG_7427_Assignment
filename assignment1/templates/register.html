@@ -109,7 +109,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                             </div>
-                            <input name='username' type="text" class="form-control" placeholder="username">
+                            <input name='username' required type="text" class="form-control" placeholder="username">
 
                         </div>
 
@@ -131,23 +131,25 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-at"></i></span>
                             </div>
-                            <input name='email' type="email" class="form-control" placeholder="Email">
+                            <input name='email' required type="email" class="form-control" placeholder="Email">
                         </div>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
                             </div>
-                            <input name='password' type="password" class="form-control" placeholder="password">
+                            <input id="password_1" name='password' required type="password" class="form-control" placeholder="password">
                         </div>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
                             </div>
-                            <input name='confirm-password' type="password" class="form-control" placeholder="Enter password again">
+                            <input id="password_2" name='confirm-password' required type="password" class="form-control" placeholder="Enter password again">
+                            <span id='message'></span>
+
                         </div>
 
                         <div class="form-group">
-                            <input type="submit" value="Sign Up" class="btn float-right btn-outline-primary">
+                            <input id="signupBtn" type="submit" value="Sign Up" class="btn float-right btn-outline-primary">
                         </div>
                     </form>
                 </div>

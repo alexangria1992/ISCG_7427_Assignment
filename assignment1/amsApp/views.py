@@ -155,6 +155,8 @@ def register_view(request):
                 return redirect( 'login')
     except IntegrityError:
         messages.add_message(request, messages.INFO, "That Username is taken please try another username")
+    except ValueError:
+                messages.add_message(request, messages.INFO, "Please enter credentials. The fields are empty.")
 
     return render(request, 'register.html', {'includeNav': False})
     
