@@ -45,8 +45,9 @@
             {%endfor%}
 
         </div>
-
-        {% endif %}
+        {%else%}
+        <h1>My Activities</h1>
+        {%include 'activities.html'%} {% endif %}
 
 
     </div>

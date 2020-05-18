@@ -16,6 +16,8 @@ urlpatterns = [
     path('update/child/', views.updateChild, name = 'update-child'),
     path('register/', views.register_view, name='register-user'),
     path('remove/child/', views.remove_child, name = 'remove-child'),
+    path('supervise/', views.supervise, name = 'supervise'),
+
 
 
 
