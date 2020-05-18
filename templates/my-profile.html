@@ -1,13 +1,14 @@
 {% extends 'base.html' %} {% block content1 %}
 
 <main>
-    {% include 'add-child-modal.html' %}
+    {% include 'add-child-modal.html' %} {%include 'date-nav.html'%}
 
 
     <div class="container d-flex flex-column">
+        {% include 'profile-section.html'%}
 
-        <h1>My details</h1>
-        <p>I am a {{user.roles.first}} and my name is {{user.username}}</p>
+        <!-- <h1>My details</h1>
+        <p>I am a {{user.roles.first}} and my name is {{user.username}}</p> -->
 
         {% if userrole is 2 %}
         <h1>MY CHILDREN</h1>
@@ -44,7 +45,9 @@
             {%endfor%}
 
         </div>
+
         {% endif %}
+
 
     </div>
 
