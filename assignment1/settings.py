@@ -80,12 +80,26 @@ WSGI_APPLICATION = 'assignment1.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
+
+
+'''
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+'''
+DATABASES = {
+     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST' : 'ec2-18-210-214-86.compute-1.amazonaws.com',
+        'NAME': 'dbl5hk0uf10npr',
+        'USER': 'ruxlpwvygcrfsi',
+        'PORT': '5432',
+        'PASSWORD': '62c5a42b925cf809370711b6a928ff63afbd4e8763ce2c380b1cbc5695f22463',
+    }
 }
+
+
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
