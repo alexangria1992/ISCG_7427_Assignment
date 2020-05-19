@@ -53,13 +53,14 @@ background-repeat: no-repeat;
                 'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value
             }, (data) => {
 
-                button.html('you are a supervisor for this now');
+                button.html('you are a supervisor');
                 console.log("success");
 
             })
         }
         $(document).ready(function() {
-            $('.superviseBtn').each(function(i, superviseButton) {
+            $('.superviseBtn').each(function() {
+                superviseButton = $(this);
                 if (superviseButton.html() == '') {
                     superviseButton.html("supervise")
                 }

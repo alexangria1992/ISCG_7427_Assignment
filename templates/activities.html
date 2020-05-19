@@ -36,7 +36,7 @@
                         <button disabled class="btn btn-primary float-right">You do not have any kids in your account</button> {% endif %} {% endif %} {%if userrole is 1%}
 
                     <div class="button-group">
-                        <button onclick="makeUserSupervisor({{activity.id}},$(this))" class="btn btn-outline-secondary"> Supervise{%for myActivity in user.myActivities.all %} {%if myActivity.id == activity.id%} you are a supervisor for this now {%endif%}{%endfor%}</button>
+                        <button onclick="makeUserSupervisor({{activity.id}},$(this))" class="btn btn-outline-secondary superviseBtn">{%for myActivity in user.myActivities.all %}{%if myActivity.id == activity.id%} you are a supervisor{%endif%}{%endfor%}</button>
 
                         <button data-toggle="dropdown" class="btn btn-secondary float-right">Actions <i class="fa fa-caret-down"></i></button>
                         <div style='background:transparent;border:none;' class="dropdown-menu">
