@@ -11,7 +11,7 @@
 </style>
 
 <div class="row activities my-3">
-    {%if request.path == '/'%} {%for activity in allActivities%} {%include 'activities.html'%} {%endfor%} {%elif path is '/myprofile/'%} {%for activity in user.myActivities.all%} {%include 'activities.html'%} {%endfor%} {%endif%}
+    {%if request.path == '/'%} {%for activity in allActivities%} {%include 'activities.html'%} {%endfor%} {%elif request.path == '/myprofile/'%} {%for activity in user.myActivities.all%} {%include 'activities.html'%} {%endfor%} {%endif%}
 </div>
 
 <script>
