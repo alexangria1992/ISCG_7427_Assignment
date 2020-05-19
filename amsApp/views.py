@@ -13,7 +13,18 @@ from django.http import JsonResponse
 
 
 
+current_week = timezone.now().isocalendar()[1] - 1
+def current_week_setter(current_week, request):
+     if request.method == 'POST'  and request.POST.get('week') is not None:
+        week = request.POST.get('week')
+        current_week = request.POST['current_week']
+        print('beforer the week was '+current_week)
 
+        if week == 'next-week':
+            current_week = str(int(current_week) +1)
+        if week == 'last-week':
+            current_week = str(int(current_week) - 1)
+     return current_week
 # Create your views here.
 def supervise(request):
     if request.method == 'POST':
@@ -35,7 +46,7 @@ def supervise(request):
 
     
 def home(request):
-    
+    current_week2 = current_week
     try:
         userrole = request.user.roles.first().id
     except:
@@ -45,39 +56,31 @@ def home(request):
    
     context = dict()
 
-    current_activities =[]
-    current_week = timezone.now().isocalendar()[1] - 1
+    current_activities = []
+    if request.method == 'GET':
+        for activity in allActivities:
+            if str(activity.get_week()) == str(int(current_week) + 1):
+                current_activities.append(activity)
+     
     try:
         print('in the all activities the first activity is in the week of'+ str(allActivities.first().get_week()))
     except:
         print('no activities')
     
-    
-    
     if request.method == 'POST':
-        if request.method == 'POST'  and request.POST.get('week') is not None:
-            week = request.POST.get('week')
-            current_week = request.POST['current_week']
-            print('beforer the week was '+current_week)
-
-            if week == 'next-week':
-                current_week = str(int(current_week) +1)
-            if week == 'last-week':
-                current_week = str(int(current_week) -1)
-        
-        
-            
-
+        if request.method == 'POST' and request.POST.get('week') is not None:
+            current_week2 = current_week_setter(current_week, request)
+            for activity in allActivities:
+                if str(activity.get_week()) == str(int(current_week2) + 1):
+                    current_activities.append(activity)
         if request.POST.get('form-type') == 'remove-activity' and request.POST.get('form-type') is not None:
             activityId = request.POST.get('activityId')
-            
             activity = Activity.objects.filter(id=activityId).delete()
             if activity is not None:
                 messages.add_message(request, messages.SUCCESS, "Activity Delete Successful")
             else:
                 messages.add_message(request, messages.INFO, "Activity Delete Unsuccessful")
             return redirect('home')
-            
         if request.POST.get('form-type') == 'update-activity' and request.POST.get('form-type') is not None:
             activityId = request.POST.get('activityId')
             a1 = Activity.objects.filter(id=activityId).first()
@@ -90,8 +93,6 @@ def home(request):
             else:
                 af = forms.ActivityForm()
                 messages.add_message(request,messages.INFO, 'Failed to update activity details.')
-
-
         if request.POST.get('childId') is not None:
             try:
                 childId= request.POST.get('childId')
@@ -105,7 +106,6 @@ def home(request):
             context = {'userrole':userrole,'includeNav':True,'child':selectedChild,'allActivities': allActivities}
             response = child_profile(request, context)
             return response
-            
         if request.POST.get('duration') is not None:
             print("adding activity...")
             af = forms.ActivityForm(request.POST)
@@ -113,22 +113,43 @@ def home(request):
                 activity = af.save()
                 messages.add_message(request, messages.SUCCESS,"Activity added successfully")
             else:
-                messages.add_message(request, messages.INFO,"Activity  Failed")
+                messages.add_message(request, messages.INFO, "Activity  Failed")
+    print('current activities are :')
+    print(current_activities)
+    if current_week2 is not None:
+            print('now the week is '+str(current_week2))
+    context = {'userrole':userrole,'includeNav':True,'form':af}
+    context['allActivities'] = current_activities
+    context['current_week'] = current_week2
+
+    return render(request,'home.html',context)
+
+                       
+            
+    
+    
+    
+
+
+                    
+                
+        
+        
+            
+
+       
+            
+            
+            
+
+            
     
     current_activities = []
     for activity in allActivities:
         if str(activity.get_week()) == str(int(current_week)+1):
             current_activities.append(activity)
             #print(activity,activity.get_week())
-    print('current activities are :'  )
-    print(current_activities)
-    print('now the week is '+str(current_week))
-
-    context = {'userrole':userrole,'includeNav':True,'form':af}
-    context['allActivities'] = current_activities
-    context['current_week'] = current_week
-
-    return render(request,'home.html',context)
+ 
 
 
       
@@ -186,18 +207,43 @@ def my_profile(request):
         userrole = request.user.roles.first().id
     except:
         userrole = '3'
+    current_week2 = current_week
+
+    myCurrentWeeksActivities = []
+    if request.method == 'GET':
+        for activity in request.user.myActivities.all():
+            if str(activity.get_week()) == str(int(current_week)+1):
+                print(f'matched!! for {activity}loll')
+                myCurrentWeeksActivities.append(activity)
     cf = forms.ChildForm()
-    if request.method == 'POST':
+    if request.method == 'POST' and request.POST.get('date_of_birth') is not None:
         cf = forms.ChildForm(request.POST)
         if cf.is_valid():
             child = cf.save()
             request.user.myChildren.add(child)
             messages.add_message(request, messages.SUCCESS, "Child Added Successfully")
         else:
-            messages.add_message(request, messages.INFO, "Child Add Failed")
+            messages.add_messsage(request, messages.INFO, "Child add failed")
     myChildren = request.user.myChildren.all()
-    context= {'userrole':userrole,'includeNav': True, 'myChildren': myChildren,'form':cf}
+    if request.method == 'POST' and request.POST.get('week') is not None:
+        cwfpr = request.POST.get('current_week')
+        current_week2 = current_week_setter(str(cwfpr), request)
+        for activity in request.user.myActivities.all():
+            if str(activity.get_week()) == str(int(current_week2) + 1):
+                myCurrentWeeksActivities.append(activity)
+    context = {'userrole': userrole, 'includeNav': True, 'myChildren': myChildren, 'form': cf}
+    context['myCurrentWeeksActivities'] = myCurrentWeeksActivities
+    context['current_week'] = current_week2
     return render(request, 'my-profile.html', context)
+         
+
+        
+       
+
+
+      
+   
+
 
 def child_profile(request,newContext={}):
     context ={'includeNav':True}
