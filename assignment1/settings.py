@@ -25,7 +25,7 @@ SECRET_KEY = '+4qi)%93pe$#a*lz1!%j^#c2)gtur2vecbd0_3x(ohsuc=4)3x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.7','0.0.0.0','127.0.0.1', 'activity-management-system.herokuapp.com']
+ALLOWED_HOSTS = ['192.168.1.7','0.0.0.0','127.0.0.1', 'activity-management-system.herokuapp.com', 'activity-staging-app.herokuapp.com']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'amsApp.apps.AmsappConfig',
+    
     'crispy_forms'
 ]
 
