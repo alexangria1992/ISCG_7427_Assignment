@@ -14,7 +14,7 @@ def sendEmailWithSendGrid(customMessage):
 
 
     try:
-        sg = SendGridAPIClient('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')
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
         response = sg.send(message)
         print(response.status_code)
         print(response.body)
