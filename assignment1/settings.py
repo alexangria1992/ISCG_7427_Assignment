@@ -154,3 +154,10 @@ DATETIME_INPUT_FORMATS = ['%Y-%m-%dT%H:%M']
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+SENDGRID_API_KEY = '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'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
