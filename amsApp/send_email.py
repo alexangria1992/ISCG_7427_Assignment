@@ -6,10 +6,10 @@ def sendEmailWithSendGrid(customMessage):
 
     message = Mail(
     from_email='alex040892@gmail.com',
-    to_emails=customMessage['to_emails'],
-    subject=customMessage['subject'],
-    plain_text_content=customMessage['plain_text_content'],
-    html_content=customMessage['html_content'])
+    to_emails=customMessage["to_emails"],
+    subject=customMessage["subject"],
+    plain_text_content=customMessage["plain_text_content"],
+    html_content=customMessage["html_content"])
 
 
 
