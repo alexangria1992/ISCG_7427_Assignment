@@ -22,4 +22,4 @@ def sendEmailWithSendGrid(customMessage):
         print('sent')
     except Exception as e:
         print(e)
-        print(e.body)
+       # print(e.body)
