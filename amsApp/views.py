@@ -116,6 +116,9 @@ def home(request):
                 messages.add_message(request, messages.SUCCESS,"Activity added successfully")
             else:
                 messages.add_message(request, messages.INFO, "Activity  Failed")
+            for activity in allActivities:
+                if str(activity.get_week()) == str(int(current_week) + 1):
+                    current_activities.append(activity)
     print('current activities are :')
     print(current_activities)
     if current_week2 is not None:
