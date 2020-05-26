@@ -8,6 +8,8 @@ from datetime import time
 from amsApp import forms
 from django.utils import timezone
 from django.http import JsonResponse
+from .send_email import sendEmailWithSendGrid
+
 
 
 
@@ -179,6 +181,7 @@ def logout_view(request):
         logout(request)
     return redirect('login')
 
+
 def register_view(request):
     if(request.user.is_authenticated):
         return redirect('home')
@@ -189,6 +192,7 @@ def register_view(request):
             email = request.POST.get("email")
             userType = request.POST.get("userType")
             user = User.objects.create_user(username, email, password)
+            sendWelcomeEmail(user)
             if user is not None:
                #messages.add_message(request, level, message, extra_tags='', fail_silently=False)
                 user.roles.add(Role.objects.get(id=userType))
@@ -201,7 +205,17 @@ def register_view(request):
                 messages.add_message(request, messages.INFO, "Please enter credentials. The fields are empty.")
 
     return render(request, 'register.html', {'includeNav': False})
+
+
+def sendWelcomeEmail(user):
+    customMessage = {'to_emails': user.email,
+    'subject': 'Welcome to Activity Management System',
+    'plain_text_content': f'Welcome {user.username}',
+    'html_content': f'<h1>Welcome! {user.username}</h1><p>Thanks for registering with us!</p>'}
     
+    
+    sendEmailWithSendGrid(customMessage)
+
 def my_profile(request):
     try:
         userrole = request.user.roles.first().id
