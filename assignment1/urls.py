@@ -19,6 +19,7 @@ urlpatterns = [
     path('register/', views.register_view, name='register-user'),
     path('remove/child/', views.remove_child, name = 'remove-child'),
     path('supervise/', views.supervise, name='supervise'),
+    path('distance/', views.distance, name = 'distance'),
    path('forgot/',
      auth_views.PasswordResetView.as_view(template_name="forgot.html"),
      name="forgot"),

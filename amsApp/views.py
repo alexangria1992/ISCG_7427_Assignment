@@ -9,6 +9,7 @@ from amsApp import forms
 from django.utils import timezone
 from django.http import JsonResponse
 from .send_email import sendEmailWithSendGrid
+from .distanceAPI import distance_between
 
 
 
@@ -349,6 +350,17 @@ def calendar(request):
 
     context = {'row_wise_data':rwd,'next_five_week_days':five_week_days_strings,'includeNav':True,'dates':dates_for_nav}
     return render(request, 'calendar.html', context)
+
+def distance(request):
+    ctx = {}
+    if request.method == 'POST' and request.POST.get("origin") is not None:
+        origin = request.POST.get('origin')
+        distance_string = distance_between(origin, 'mt albert primary school')
+        ctx ["distance_string"] =distance_string 
+    myJSON = JsonResponse(ctx)
+    return myJSON
+
+
 
 
 

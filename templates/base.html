@@ -58,6 +58,19 @@ background-repeat: no-repeat;
 
             })
         }
+
+        function calcDistance(origin) {
+            $.post('{% url "distance"%}', {
+                'origin': origin,
+                'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value
+            }, (data) => {
+
+                $('#drivingTimeText').html(data.distance_string);
+                $("#driving-time-modal").show();
+                console.log("success", data)
+
+            });
+        }
         $(document).ready(function() {
             $('.superviseBtn').each(function() {
                 superviseButton = $(this);
