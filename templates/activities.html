@@ -20,7 +20,7 @@
             <!-- if the user is parent then -->
             {% if userrole is 2 %}
             <button data-toggle="modal" data-target="#driving-time-modal" onclick="calcDistance($('#originInput').val())" class="btn btn-secondary float-left ">View Driving Time</button><br><br>
-            <p><b>Please enter your current location in the form below: </p></b> {% if user.myChildren.count > 0 %}
+            <p><b>Please enter your current location: </p></b> {% if user.myChildren.count > 0 %}
                 <input size="100" style="position:absolute;top:245px" id="originInput" name="origin" type="text" />
 
                 <!-- if the user has kids then -->
