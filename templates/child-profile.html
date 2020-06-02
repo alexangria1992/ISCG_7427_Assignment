@@ -34,23 +34,26 @@
             <div class="col-4 profile">
 
                 <div class="card">
-                    <img class="card-img-top" src="https://source.unsplash.com/random" alt="{{child.name}} PROFILE">
+                    <img class="card-img-top" id="blah" src="#" alt="{{child.name}} PROFILE">
                     <div class="card-body">
                         <h5 class="card-title">{{child.name}}'s Profile</h5>
-
                         <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of
                             the card's content.</p> -->
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">DOB and Age: {{child.date_of_birth}}</li>
                         <li class="list-group-item">Address:{{child.address}}</li>
-                        <li class="list-group-item"> <a href=""> Parents' contact </a> </li>
-                        <li class="list-group-item"> <a href=""> Teachers' contact </a> </li>
+
                     </ul>
                     <!-- <div class="card-body">
                         <a href="#" class="card-link">Card link</a>
                         <a href="#" class="card-link">Another link</a>
                     </div> -->
+                    <label class="btn btn-primary" for="my-file-selector">
+                            <input id="my-file-selector" type="file" class="d-none" onchange="readURL(this);"/>
+                            
+                            Upload your profile Picture
+                        </label>
                 </div>
 
 
@@ -121,6 +124,20 @@
 
 
     </div>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $("#blah").attr('src', e.target.result)
+                        .width(350)
+                        .height(350);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 </main>
 
 {% include 'success-modal.html' %} {% endblock %}

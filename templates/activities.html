@@ -28,27 +28,27 @@
                 <button data-toggle="dropdown" class="btn btn-primary float-right">Enroll My Child <i class="fa fa-caret-down"></i></button>
                 <div style='background:transparent;border:none;' class="dropdown-menu">
                     {% for child in user.myChildren.all %}
-                    <form method="post ">
+                    <form method="post">
                         {%csrf_token%}
-                        <input name="childId" value="{{child.id}} " type="hidden">
+                        <input name="childId" value="{{child.id}}" type="hidden">
                         <input name="activityId" value="{{activity.id}}" type="hidden">
-                        <button type='submit' class="btn mb-1 btn-outline-secondary ">{{child.name}}</button >
+                        <button type='submit' class="btn mb-1 btn-outline-secondary">{{child.name}}</button >
                                 </form>
     
                             {% endfor %}                            
                         </div>
                         {% else %}
-                        <button disabled class="btn btn-primary float-right ">You do not have any kids in your account</button> {% endif %} {% endif %} {%if userrole is 1%}
+                        <button disabled class="btn btn-primary float-right">You do not have any kids in your account</button> {% endif %} {% endif %} {%if userrole is 1%}
 
                         <div class="button-group ">
-                            <button onclick="makeUserSupervisor({{activity.id}},$(this)) " class="btn btn-outline-secondary superviseBtn ">{%for myActivity in user.myActivities.all %}{%if myActivity.id == activity.id%} you are a supervisor{%endif%}{%endfor%}</button>
+                            <button onclick="makeUserSupervisor({{activity.id}},$(this))" class="btn btn-outline-secondary superviseBtn">{%for myActivity in user.myActivities.all %}{%if myActivity.id == activity.id%} you are a supervisor{%endif%}{%endfor%}</button>
 
-                            <button data-toggle="dropdown " class="btn btn-secondary float-right ">Actions <i class="fa fa-caret-down "></i></button>
-                            <div style='background:transparent;border:none;' class="dropdown-menu ">
+                            <button data-toggle="dropdown" class="btn btn-secondary float-right">Actions <i class="fa fa-caret-down"></i></button>
+                            <div style='background:transparent;border:none;' class="dropdown-menu">
 
-                                <a class="btn mb-1 btn-outline-secondary " data-toggle="modal " data-target="#update-activity-modal-{{ activity.id}} "><i class="fas fa-edit "></i> Update</a><br> {% include 'update-activity-modal.html' %}
+                                <a class="btn mb-1 btn-outline-secondary" data-toggle="modal" data-target="#update-activity-modal-{{ activity.id}}"><i class="fas fa-edit"></i> Update</a><br> {% include 'update-activity-modal.html' %}
 
-                                <a class="btn btn-danger " data-toggle="modal " data-target="#removeActivityModal-{{activity.id}} "><i class="fas fa-trash "></i> Remove</a> {% include 'remove-activity-modal.html' %}
+                                <a class="btn btn-danger" data-toggle="modal" data-target="#removeActivityModal-{{activity.id}}"><i class="fas fa-trash"></i> Remove</a> {% include 'remove-activity-modal.html' %}
 
 
 
