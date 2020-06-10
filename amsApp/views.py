@@ -8,9 +8,9 @@ from datetime import time
 from amsApp import forms
 from django.utils import timezone
 from django.http import JsonResponse
-from .send_email import sendEmailWithSendGrid
+from .send_email import sendEmailWithSendGrid, send_cancellation_email
 from .distanceAPI import distance_between
-
+ 
 
 
 
@@ -104,6 +104,10 @@ def home(request):
                 selectedActivity = Activity.objects.filter(id=activityId).first()
                 selectedChild.enrolled_activities.add(selectedActivity)
                 messages.add_message(request, messages.SUCCESS, f'{selectedChild.name} has been enrolled in {selectedActivity.name}')
+                try:
+                    send_cancellation_email(selectedActivity)
+                except Exception as e:
+                    messages.add_message(request, messages.INFO,  f'{e}')
             except:
                 messages.add_message(request, messages.INFO, f'FAILED to enroll child')
             context = {'userrole':userrole,'includeNav':True,'child':selectedChild,'allActivities': allActivities}
