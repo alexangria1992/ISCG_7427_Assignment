@@ -1,6 +1,8 @@
 import os
-from django.core.mail import send_mail as send_mail_with_gmail
-from django.conf import settings
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+'''from django.core.mail import send_mail as send_mail_with_gmail
+from django.conf import settings'''
 
 
  
@@ -27,7 +29,7 @@ def sendEmailWithSendGrid(customMessage):
         print(e)
         print(e.body)
 
-def send_cancellation_email(activity):
+'''def send_cancellation_email(activity):
     to_emails = []
     html_content = f'<h1> has been cancelled</h1><p>Sorry to inform you that {activity} on {activity.date}, {activity.start_time} has been cancelled due to the rainy weather that has been forecasted</p><h2>From:Activity Management System</h2>'
 
@@ -43,5 +45,5 @@ def send_cancellation_email(activity):
     send_mail_with_gmail(customMessage.get('subject'),
      customMessage.get('plain_text_content'),
      settings.EMAIL_HOST_USER, customMessage.get('to_emails'),
-     False, None, None, None, html_content)
+     False, None, None, None, html_content)'''
 

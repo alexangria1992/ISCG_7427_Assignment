@@ -163,3 +163,4 @@ EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = 'alexangria1992@gmail.com'
 
+

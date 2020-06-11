@@ -16,11 +16,12 @@
             <p>Date: {{activity.date}}</p>
             <p>From: {{activity.start_time}} </p>
             <p>Duration: {{activity.dur_str}} </p>
+
+
+            <!-- if the user is parent then -->
+            {% if userrole is 2 %}
             <input size="100" style="position:absolute;top:211px" id="originInput" name="origin" type="text" />
             <p><b>Please enter your current location: </p></b><br><br>
-
-                <!-- if the user is parent then -->
-                {% if userrole is 2 %}
                 <button data-toggle="modal" data-target="#driving-time-modal" onclick="calcDistance($('#originInput').val())" class="btn btn-secondary float-left ">View Driving Time</button> {% if user.myChildren.count > 0 %}
 
 

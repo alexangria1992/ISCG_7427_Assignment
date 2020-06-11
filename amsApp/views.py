@@ -8,7 +8,7 @@ from datetime import time
 from amsApp import forms
 from django.utils import timezone
 from django.http import JsonResponse
-from .send_email import sendEmailWithSendGrid, send_cancellation_email
+from .send_email import sendEmailWithSendGrid #send_cancellation_email
 from .distanceAPI import distance_between
  
 
@@ -104,10 +104,10 @@ def home(request):
                 selectedActivity = Activity.objects.filter(id=activityId).first()
                 selectedChild.enrolled_activities.add(selectedActivity)
                 messages.add_message(request, messages.SUCCESS, f'{selectedChild.name} has been enrolled in {selectedActivity.name}')
-                try:
-                    send_cancellation_email(selectedActivity)
-                except Exception as e:
-                    messages.add_message(request, messages.INFO,  f'{e}')
+                #try:
+                  #  send_cancellation_email(selectedActivity)
+               # except Exception as e:
+                   # messages.add_message(request, messages.INFO,  f'{e}')
             except:
                 messages.add_message(request, messages.INFO, f'FAILED to enroll child')
             context = {'userrole':userrole,'includeNav':True,'child':selectedChild,'allActivities': allActivities}
@@ -363,6 +363,15 @@ def distance(request):
         ctx ["distance_string"] =distance_string 
     myJSON = JsonResponse(ctx)
     return myJSON
+
+'''def forecast(request):
+    ctx = {}
+    if request.method == 'POST' and request.POST.get("forecast") is not None:
+        forecast_string = distance_between(forecast, 'mt albert primary school')
+        ctx ["distance_string"] =distance_string 
+    myJSON = JsonResponse(ctx)
+    return myJSON'''
+
 
 
 
